@@ -6,6 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 import pytest
 from selenium import webdriver
+from selenium.webdriver.support.ui import Select
 
 
 
@@ -36,10 +37,6 @@ def wait(driver):
 
 
 
-
-
-
-
 def test_search_product(driver,wait):
 
     # Naviguer vers le site de décathlon
@@ -60,22 +57,25 @@ def test_search_product(driver,wait):
     search_box = wait.until(
             EC.element_to_be_clickable((By.XPATH, "//input[@type='search']"))
         )
-
-    # Ecrire Vélo dans le champ de recherche et simuler le bouton Entrée
+ # Ecrire Vélo dans le champ de recherche et simuler le bouton Entrée
     search_box.clear()
     search_box.send_keys("Vélo")
     search_box.send_keys(Keys.RETURN)
 
-    # Vérifier que nous sommes sur la page des vélos
-    resultatRecherche = wait.until(
-            EC.visibility_of_element_located((By.TAG_NAME, "h1"))
-        ).text
-    assert resultatRecherche == "Vélos"
 
-    #  Vérifier qu'il y a au moins un produit affiché
-    product_list = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'product-list')))
-    assert product_list.is_displayed(), "Products should be visible"
 
-   
- 
 
+    # Trouver le menu déroulant
+    tri_element = wait.until(EC.visibility_of_element_located((By.ID, 'list-sort-select')))
+    select_tri = Select(tri_element)
+
+    assert select_tri.first_selected_option.text == "Meilleures ventes"
+
+    select_tri.select_by_visible_text("Prix croissants")
+    assert select_tri.first_selected_option.text == "Prix croissants"
+
+    select_tri.select_by_index(3)
+    assert select_tri.first_selected_option.text == "Remise décroissante"
+
+    select_tri.select_by_value("4")
+    assert select_tri.first_selected_option.text == "Note des clients"
