@@ -27,6 +27,7 @@ driver.get("https://www.decathlon.fr/")
 # Vérifier que le titre de la page est correct
 assert driver.title == 'DECATHLON | Magasin de Sport'
 
+# Wait explicite ca permet d'avoir des conditions , plus ponctuelle 
 # Continuer sans accepter les cookies
 try:
     wait.until(

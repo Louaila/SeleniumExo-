@@ -11,7 +11,7 @@ options.add_experimental_option("detach", True)
 #  Instancier le navigateur Chrome avec les options
 driver = webdriver.Chrome(options)
 
-# Wait implicite
+# Wait implicite fait sur tout le navigateur
 driver.implicitly_wait(5)
  
 
