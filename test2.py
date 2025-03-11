@@ -3,14 +3,18 @@ from selenium.webdriver.common.by import By
 
 from selenium.webdriver.common.keys import Keys
 
+ 
 
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
  
 #  Instancier le navigateur Chrome avec les options
 driver = webdriver.Chrome(options)
+
+# Wait implicite
 driver.implicitly_wait(5)
  
+
 # Ouvrir en plein écran
 driver.maximize_window()
  

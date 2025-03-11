@@ -2,11 +2,13 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
-
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 """
 Définir des options pour le driver. Pour chrome, garder
 le navigateur ouvert si driver.quit() n'est pas appelée
 """
+
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
 
@@ -16,6 +18,11 @@ driver = webdriver.Chrome(options)
 # Ouvrir en plein écran
 driver.maximize_window()
 
+
+# Wait explicite
+
+wait= WebDriverWait(driver, 10)
+
 # Naviguer vers le site de décathlon
 driver.get("https://www.decathlon.fr/")
 
@@ -24,7 +31,7 @@ assert driver.title == 'DECATHLON | Magasin de Sport', "Le titre devrait être '
 
 # Continuer sans accepter les cookies
 try:
-    driver.find_element(By.CLASS_NAME, 'didomi-continue-without-agreeing').click()
+    wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'didomi-continue-without-agreeing'))).click()
 except NoSuchElementException:
     print("Cookies pop-up is not present")
 
